@@ -16,7 +16,7 @@ class ssh::service {
     enable     => true,
     name       => $ssh::params::serviceSshd,
     require    => [
-      Package[$ssh::params::packageSshd],
+      Package[$ssh::params::packageServer],
       File[$ssh::params::configSshdConf]];
   }
 }
