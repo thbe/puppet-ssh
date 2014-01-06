@@ -19,7 +19,7 @@ class ssh::config {
       mode    => '0644',
       owner   => root,
       group   => root,
-      source  => 'puppet:///modules/ssh/ssh_config';
+      source  => 'puppet:///modules/ssh/etc/ssh/ssh_config';
   }
 
   # SSHD configuration
@@ -28,14 +28,18 @@ class ssh::config {
       ensure  => directory,
       mode    => '0755',
       owner   => root,
-      group   => root;
+      group   => root,
+      purge   => true,
+      recurse => true,
+      force   => true,
+      source  => 'puppet:///modules/ssh/etc/ssh.d';
 
     $ssh::params::configSshdConf:
       ensure  => present,
       mode    => '0644',
       owner   => root,
       group   => root,
-      source  => "puppet:///modules/ssh/sshd_config",
+      source  => "puppet:///modules/ssh/etc/ssh/sshd_config",
       notify  => Service[$ssh::params::serviceSshd];
   }
 
