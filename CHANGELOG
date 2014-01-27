@@ -1,2 +1,5 @@
 0.1.0 2014-01-06 thbe <project@bendler-net.de>
 * Initial release
+
+0.2.0 2014-01-27 thbe <project@bendler-net.de>
+* Add create_resources for authorized key files

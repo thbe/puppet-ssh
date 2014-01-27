@@ -31,8 +31,8 @@ class ssh::config {
       group   => root,
       purge   => true,
       recurse => true,
-      force   => true,
-      source  => 'puppet:///modules/ssh/etc/ssh.d';
+      force   => true;
+      # source  => 'puppet:///modules/ssh/etc/ssh.d';
 
     $ssh::params::configSshdConf:
       ensure  => present,
@@ -42,6 +42,16 @@ class ssh::config {
       source  => "puppet:///modules/ssh/etc/ssh/sshd_config",
       notify  => Service[$ssh::params::serviceSshd];
   }
+
+  # Populate authorized_keys
+  $defaults = {
+    'ensure'  => present,
+    'mode'    => '0644',
+    'owner'   => root,
+    'group'   => root,
+  }
+
+  create_resources(file, $::ssh::authorized_keys, $defaults)
 
   # Hostkey distribution
   @@sshkey { "${::fqdn}_dsa":
