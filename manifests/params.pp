@@ -1,6 +1,6 @@
 # Class: ssh::params
 #
-# This module contain the parameters for SSH
+# This module contain the parameters for SSH module
 #
 # Parameters:   This module has no parameters
 #
@@ -8,7 +8,7 @@
 #
 # Requires:     This module has no requirements
 #
-# Sample Usage:
+# Sample Usage: Should not be used standalone
 #
 class ssh::params {
 
@@ -36,5 +36,4 @@ class ssh::params {
   }
 
   # SSH definitions
-
 }

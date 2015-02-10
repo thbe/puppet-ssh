@@ -1,24 +1,37 @@
 # == Class: ssh
 #
-# This module manages SSH.
+# This is the ssh module. This module install all things
+# required to setup local ssh server.
 #
 # === Parameters
 #
-# Document parameters here.
+# Here is the list of parameters used by this module.
+#
+# [*authorized_keys*]
+#   Hash that specify the usernames and authorized_keys for
+#   that host
+#   Default value is:
+#   'vagrant' => 'ssh-rsa AAA[...]9WhQ== vagrant insecure public key'
 #
 # === Variables
 #
+# No additonal variables are required for this module
+#
 # === Examples
 #
-#  include ssh
+#  class { '::ssh':
+#    authorized_keys => {
+#      'vagrant' => 'ssh-rsa AAA[...]9WhQ== vagrant insecure public key',
+#    },
+#  }
 #
 # === Authors
 #
-# Author Thomas Bendler <project@bendler-net.de>
+# Thomas Bendler <project@bendler-net.de>
 #
 # === Copyright
 #
-# Copyright 2013 Thomas Bendler
+# Copyright 2015 Thomas Bendler, unless otherwise noted.
 #
 class ssh (
   $authorized_keys = {
@@ -27,7 +40,6 @@ class ssh (
 ) inherits ssh::params {
   # Start workflow
   if $ssh::params::linux {
-    # Containment
     contain ssh::package
     contain ssh::config
     contain ssh::service

@@ -8,7 +8,7 @@
 #
 # Requires:     This module has no requirements
 #
-# Sample Usage:
+# Sample Usage: Should not be used standalone
 #
 class ssh::config {
 
@@ -39,7 +39,7 @@ class ssh::config {
       mode    => '0644',
       owner   => root,
       group   => root,
-      source  => "puppet:///modules/ssh/etc/ssh/sshd_config",
+      source  => 'puppet:///modules/ssh/etc/ssh/sshd_config',
       notify  => Service[$ssh::params::serviceSshd];
   }
 

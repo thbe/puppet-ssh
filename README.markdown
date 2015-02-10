@@ -40,8 +40,9 @@ proper values.  If you wish to pass in parameters like which servers to use then
 can use:
 
 ```puppet
-include ssh
+include ::ssh
 ```
+
 
 ##Usage
 
@@ -67,7 +68,10 @@ include '::ssh'
 
 ###Parameters
 
-There are no parameters available in the ssh module currently
+####`authorized_keys`
+
+Hash that specify username and authorized keys for that user.
+
 
 ##Limitations
 
@@ -78,7 +82,7 @@ The module has been tested on:
 * RedHat Enterprise Linux 5/6
 * Scientific Linux 5/6
 
-Testing on other platforms has been light and cannot be guaranteed. 
+Testing on other platforms has been light and cannot be guaranteed.
 
 
 ##Development

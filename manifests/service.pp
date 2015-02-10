@@ -2,20 +2,20 @@
 #
 # This module contain the service configuration for SSH
 #
-# Parameters:
+# Parameters:   This module has no parameters
 #
-# Actions:
+# Actions:      This module has no actions
 #
-# Requires:
+# Requires:     This module has no requirements
 #
-# Sample Usage:
+# Sample Usage: Should not be used standalone
 #
 class ssh::service {
   service { $ssh::params::serviceSshd:
-    ensure     => running,
-    enable     => true,
-    name       => $ssh::params::serviceSshd,
-    require    => [
+    ensure  => running,
+    enable  => true,
+    name    => $ssh::params::serviceSshd,
+    require => [
       Package[$ssh::params::packageServer],
       File[$ssh::params::configSshdConf]];
   }

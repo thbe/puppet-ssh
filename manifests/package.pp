@@ -1,6 +1,6 @@
 # Class: ssh::package
 #
-# This module contain the service configuration for SSH
+# This module contain the package configuration for SSH
 #
 # Parameters:   This module has no parameters
 #
@@ -8,7 +8,7 @@
 #
 # Requires:     This module has no requirements
 #
-# Sample Usage:
+# Sample Usage: Should not be used standalone
 #
 class ssh::package {
   package { $ssh::params::packageClient: ensure => installed; }
