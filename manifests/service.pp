@@ -11,12 +11,15 @@
 # Sample Usage: Should not be used standalone
 #
 class ssh::service {
-  service { $ssh::params::serviceSshd:
-    ensure  => running,
-    enable  => true,
-    name    => $ssh::params::serviceSshd,
-    require => [
-      Package[$ssh::params::packageServer],
-      File[$ssh::params::configSshdConf]];
+
+  # ssh service configuration
+  service {
+    $ssh::params::service_sshd:
+      ensure  => 'running',
+      enable  => true,
+      require => [
+        Package[$ssh::params::package_openssh_server],
+        File[$ssh::params::config_sshd_conf]
+      ];
   }
 }

@@ -18,20 +18,20 @@ class ssh::params {
       $linux = true
 
       # Package definition
-      $packageClient           = 'openssh-clients'
-      $packageServer           = 'openssh-server'
+      $package_openssh_clients     = 'openssh-clients'
+      $package_openssh_server      = 'openssh-server'
 
       # Config definition
-      $configSshConf           = '/etc/ssh/ssh_config'
-      $configSshdConf          = '/etc/ssh/sshd_config'
-      $configSshKnownHosts     = '/etc/ssh/ssh_known_hosts'
-      $configSshAuthorizedKeys = '/etc/ssh.d'
+      $config_ssh_conf             = '/etc/ssh/ssh_config'
+      $config_sshd_conf            = '/etc/ssh/sshd_config'
+      $config_ssh_known_hosts      = '/etc/ssh/ssh_known_hosts'
+      $config_ssh_authorized_keys  = '/etc/ssh.d'
 
       # Service definition
-      $serviceSshd             = 'sshd'
+      $service_sshd                = 'sshd'
     }
     default  : {
-      $linux = false
+      $linux                       = false
     }
   }
 
