@@ -1,5 +1,9 @@
 #ssh
 
+[![Build Status](https://travis-ci.org/thbe/puppet-ssh.png?branch=master)](https://travis-ci.org/thbe/puppet-ssh)
+[![Puppet Forge](https://img.shields.io/puppetforge/v/thbe/ssh.svg)](https://forge.puppetlabs.com/thbe/ssh)
+[![Coverage Status](https://coveralls.io/repos/thbe/puppet-ssh/badge.svg?branch=master&service=github)](https://coveralls.io/github/thbe/puppet-ssh?branch=master)
+
 ####Table of Contents
 
 1. [Overview](#overview)
