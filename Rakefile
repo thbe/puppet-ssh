@@ -27,7 +27,8 @@ begin
     require 'puppet-lint/tasks/puppet-lint'
     PuppetLint.configuration.send('disable_autoloader_layout')
     PuppetLint.configuration.send('disable_80chars')
-    PuppetLint.configuration.fail_on_warnings = false
+    PuppetLint.configuration.send('disable_140chars')
+    PuppetLint.configuration.fail_on_warnings
     # PuppetLint.configuration.ignore_paths = ["spec/**/*.pp", "vendor/**/*.pp"]
     exclude_paths = [
       "pkg/**/*",
