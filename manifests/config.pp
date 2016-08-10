@@ -32,7 +32,9 @@ class ssh::config {
       purge   => true,
       recurse => true,
       force   => true;
+  }
 
+  file {
     $ssh::params::config_sshd_conf:
       ensure  => file,
       mode    => '0644',
@@ -43,14 +45,14 @@ class ssh::config {
   }
 
   # Populate authorized_keys
-  $defaults = {
+  $file_defaults = {
     'ensure'  => file,
     'mode'    => '0644',
     'owner'   => root,
     'group'   => root,
   }
 
-  create_resources(file, $ssh::authorized_keys, $defaults)
+  create_resources(file, $ssh::authorized_keys, $file_defaults)
 
   # Hostkey distribution
   @@sshkey { "${::fqdn}_dsa":

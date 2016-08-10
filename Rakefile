@@ -27,11 +27,50 @@ begin
     require 'puppet-lint/tasks/puppet-lint'
     PuppetLint.configuration.send('disable_autoloader_layout')
     PuppetLint.configuration.send('disable_80chars')
-    PuppetLint.configuration.fail_on_warnings
-    PuppetLint.configuration.ignore_paths = ["spec/**/*.pp", "vendor/**/*.pp"]
+    PuppetLint.configuration.relative = true
+    PuppetLint.configuration.fail_on_warnings = true
+    PuppetLint.configuration.log_format = "%{path}:%{linenumber}:%{check}:%{KIND}:%{message}"
+    exclude_paths = [
+      "pkg/**/*",
+      "vendor/**/*",
+      "spec/**/*",
+    ]
+    PuppetLint.configuration.ignore_paths = exclude_paths
+    PuppetSyntax.exclude_paths = exclude_paths
     task :default => [:rspec, :lint]
   end
 rescue Gem::LoadError
 end
 
+begin
+  require 'parallel_tests/cli'
+  desc 'Run spec tests in parallel'
+  task :parallel_spec do
+    Rake::Task[:spec_prep].invoke
+    ParallelTests::CLI.new.run('-o "--format=progress" -t rspec spec/classes spec/defines'.split)
+    Rake::Task[:spec_clean].invoke
+  end
+  desc 'Run syntax, lint, spec and metadata tests in parallel'
+  task :parallel_test => [
+    :syntax,
+    :lint,
+    :parallel_spec,
+    :metadata,
+  ]
+rescue LoadError # rubocop:disable Lint/HandleExceptions
+end
+
 task :default => [:lint, :spec]
+
+# This fixes a backwards incompatibility in puppetlabs_spec_helper 1.1.0
+if Rake::Task.task_defined?('metadata_lint')
+  task :metadata => :metadata_lint
+end
+
+desc 'Run syntax, lint, spec and metadata tests'
+task :test => [
+  :syntax,
+  :lint,
+  :spec,
+  :metadata,
+]
