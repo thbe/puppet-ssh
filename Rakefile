@@ -27,8 +27,8 @@ begin
     require 'puppet-lint/tasks/puppet-lint'
     PuppetLint.configuration.send('disable_autoloader_layout')
     PuppetLint.configuration.send('disable_80chars')
-    PuppetLint.configuration.send('disable_140chars')
-    PuppetLint.configuration.fail_on_warnings
+    PuppetLint.configuration.relative = true
+    # PuppetLint.configuration.fail_on_warnings
     # PuppetLint.configuration.ignore_paths = ["spec/**/*.pp", "vendor/**/*.pp"]
     exclude_paths = [
       "pkg/**/*",
@@ -48,7 +48,6 @@ task :default => [:lint, :spec]
 
 # begin
 #   if Gem::Specification::find_by_name('puppet-lint')
-#     PuppetLint.configuration.relative = true
 #     PuppetLint.configuration.fail_on_warnings = true
 #     task :default => [:rspec, :lint]
 #   end
