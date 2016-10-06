@@ -21,21 +21,21 @@
 ##Overview
 
 The ssh module provides the installation procedure for SSH including the setup of ssh keys
-within knownhosts as well as authorized keys outside user home owned by root.
+with distributed known hosts as well as authorized keys outside user home owned by root.
 
 ##Module Description
 
 The SSH module provide a secure mechanism for using terminals on remote servers
-accros the internet. All communication is encrypted and secured.
+accross the internet. All communication is encrypted and secured.
 
 
 ##Setup
 
 ###What ssh affects
 
-* ssh package.
-* ssh configuration file.
-* ssh alternative service configuration.
+* ssh package
+* ssh configuration file
+* ssh alternative service configuration
 
 ###Beginning with ssh
 
@@ -65,10 +65,10 @@ include '::ssh'
 
 ###Classes
 
-* ssh: Main class, includes all the rest.
-* ssh::package: Handles the packages.
-* ssh::config: Handles the configuration file.
-* ssh::service: Handles the alternative service link.
+* ssh: Main class, include all sub-classes
+* ssh::install: Install the required packages
+* ssh::config: Handles the configuration files
+* ssh::service: Handles the services
 
 ###Parameters
 
@@ -83,8 +83,9 @@ This module has been built on and tested against Puppet 3.2 and higher.
 
 The module has been tested on:
 
-* RedHat Enterprise Linux 5/6
-* Scientific Linux 5/6
+* RedHat Enterprise Linux 6/7
+* CentOS 6/7
+* Oracle Enterprise Linux 6/7
 
 Testing on other platforms has been light and cannot be guaranteed.
 

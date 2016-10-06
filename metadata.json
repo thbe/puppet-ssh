@@ -1,6 +1,6 @@
 {
   "name": "thbe-ssh",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "author": "thbe",
   "summary": "SSH management module",
   "license": "GPL-3.0",
@@ -8,7 +8,8 @@
   "project_page": "https://github.com/thbe/puppet-ssh",
   "issues_url": "https://github.com/thbe/puppet-ssh/issues",
   "operatingsystem_support": [
-    { "operatingsystem": "Scientific", "operatingsystemrelease": [ "6.0", "7.0" ] },
+    { "operatingsystem": "RedHat", "operatingsystemrelease": [ "6.0", "7.0" ] },
+    { "operatingsystem": "OracleLinux", "operatingsystemrelease": [ "6.0", "7.0" ] },
     { "operatingsystem": "CentOS", "operatingsystemrelease": [ "6.0", "7.0" ] }
   ],
   "dependencies": []
