@@ -1,6 +1,6 @@
 {
   "name": "thbe-ssh",
-  "version": "0.5.0",
+  "version": "0.5.2",
   "author": "thbe",
   "summary": "SSH management module",
   "license": "GPL-3.0",
