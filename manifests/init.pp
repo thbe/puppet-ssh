@@ -7,6 +7,11 @@
 #
 # Here is the list of parameters used by this module.
 #
+# [*fallback_authorized_keys*]
+#   Check /home/user/.ssh/authorized_keys if /etc/ssh.d/%u is empty
+#   Default value is:
+#   false
+#
 # [*authorized_keys*]
 #   Hash that specify the usernames and authorized_keys for
 #   that host
@@ -36,6 +41,7 @@
 # Copyright 2016 Thomas Bendler, unless otherwise noted.
 #
 class ssh (
+  $fallback_authorized_keys = false,
   # lint:ignore:140chars
   $authorized_keys = {
     '/etc/ssh.d/vagrant' => {

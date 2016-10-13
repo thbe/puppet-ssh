@@ -13,35 +13,31 @@
 class ssh::config {
 
   # SSH configuration
-  file {
-    $ssh::params::config_ssh_conf:
-      ensure => file,
-      mode   => '0644',
-      owner  => root,
-      group  => root,
-      source => 'puppet:///modules/ssh/etc/ssh/ssh_config';
+  file { $ssh::params::config_ssh_conf:
+    ensure  => file,
+    mode    => '0644',
+    owner   => root,
+    group   => root,
+    content => template($ssh::params::config_ssh_conf_template);
   }
 
   # SSHD configuration
-  file {
-    $ssh::params::config_ssh_authorized_keys:
-      ensure  => directory,
-      mode    => '0755',
-      owner   => root,
-      group   => root,
-      purge   => true,
-      recurse => true,
-      force   => true;
+  file { $ssh::params::config_ssh_authorized_keys:
+    ensure  => directory,
+    mode    => '0755',
+    owner   => root,
+    group   => root,
+    purge   => true,
+    recurse => true,
+    force   => true;
   }
 
-  file {
-    $ssh::params::config_sshd_conf:
-      ensure => file,
-      mode   => '0644',
-      owner  => root,
-      group  => root,
-      source => 'puppet:///modules/ssh/etc/ssh/sshd_config',
-      notify => Service[$ssh::params::service_sshd];
+  file { $ssh::params::config_sshd_conf:
+    ensure  => file,
+    mode    => '0644',
+    owner   => root,
+    group   => root,
+    content => template($ssh::params::config_sshd_conf_template);
   }
 
   # Populate authorized_keys

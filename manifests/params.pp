@@ -23,7 +23,9 @@ class ssh::params {
 
       # Config definition
       $config_ssh_conf             = '/etc/ssh/ssh_config'
+      $config_ssh_conf_template    = 'ssh/etc/ssh_config.erb'
       $config_sshd_conf            = '/etc/ssh/sshd_config'
+      $config_sshd_conf_template   = 'ssh/etc/sshd_config.erb'
       $config_ssh_known_hosts      = '/etc/ssh/ssh_known_hosts'
       $config_ssh_authorized_keys  = '/etc/ssh.d'
 

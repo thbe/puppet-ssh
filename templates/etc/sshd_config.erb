@@ -52,7 +52,11 @@ SyslogFacility AUTHPRIV
 #RSAAuthentication yes
 #PubkeyAuthentication yes
 #AuthorizedKeysFile .ssh/authorized_keys
+<%- if scope['::ssh::fallback_authorized_keys'] -%>
+AuthorizedKeysFile /etc/ssh.d/%u .ssh/authorized_keys
+<%- else -%>
 AuthorizedKeysFile /etc/ssh.d/%u
+<%- end -%>
 #AuthorizedKeysCommand none
 #AuthorizedKeysCommandRunAs nobody
 
@@ -89,8 +93,8 @@ GSSAPICleanupCredentials yes
 #GSSAPIStrictAcceptorCheck yes
 #GSSAPIKeyExchange no
 
-# Set this to 'yes' to enable PAM authentication, account processing, 
-# and session processing. If this is enabled, PAM authentication will 
+# Set this to 'yes' to enable PAM authentication, account processing,
+# and session processing. If this is enabled, PAM authentication will
 # be allowed through the ChallengeResponseAuthentication and
 # PasswordAuthentication.  Depending on your PAM configuration,
 # PAM authentication via ChallengeResponseAuthentication may bypass
