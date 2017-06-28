@@ -53,10 +53,10 @@ class ssh (
 
   # Start workflow
   if $ssh::params::linux {
-    class{'ssh::install': } ->
-    class{'ssh::config': } ~>
-    class{'ssh::service': } ->
-    Class['ssh']
+    class{ '::ssh::install': }
+    -> class{ '::ssh::config': }
+    ~> class{ '::ssh::service': }
+    -> Class['ssh']
   }
   else {
     warning('The current operating system is not supported!')
