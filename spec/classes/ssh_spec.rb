@@ -3,7 +3,9 @@ require 'spec_helper'
 describe 'ssh', :type => :class do
   on_supported_os.each do |os, facts|
     context "on #{os}" do
-      let(:facts) { facts }
+      let(:facts) do
+        facts.merge( { sshdsakey: 'AB12', sshed25519key: 'AB12' } )
+      end
 
       it { is_expected.to compile.with_all_deps }
 
