@@ -1,86 +1,68 @@
-require 'rake'
-require 'rspec/core/rake_task'
+require 'rubygems'
+require 'bundler/setup'
+
 require 'puppetlabs_spec_helper/rake_tasks'
+require 'puppet/version'
 require 'puppet-lint/tasks/puppet-lint'
+require 'puppet-syntax/tasks/puppet-syntax'
+require 'metadata-json-lint/rake_task'
+require 'rubocop/rake_task'
 
-desc "Run all RSpec code examples"
-RSpec::Core::RakeTask.new(:rspec) do |t|
-  File.exist?('spec/spec.opts') ? opts = File.read("spec/spec.opts").chomp : opts = ""
-  t.rspec_opts = opts
+if Puppet.version.to_f >= 4.9
+    require 'semantic_puppet'
+elsif Puppet.version.to_f >= 3.6 && Puppet.version.to_f < 4.9
+    require 'puppet/vendor/semantic/lib/semantic'
 end
 
-SPEC_SUITES = (Dir.entries('spec') - ['.', '..','fixtures']).select {|e| File.directory? "spec/#{e}" }
-namespace :rspec do
-  SPEC_SUITES.each do |suite|
-    desc "Run #{suite} RSpec code examples"
-    RSpec::Core::RakeTask.new(suite) do |t|
-      t.pattern = "spec/#{suite}/**/*_spec.rb"
-      File.exist?('spec/spec.opts') ? opts = File.read("spec/spec.opts").chomp : opts = ""
-      t.rspec_opts = opts
-    end
-  end
-end
-task :default => :rspec
-
+# These gems aren't always present, for instance
+# on Travis with --without development
 begin
-  if Gem::Specification::find_by_name('puppet-lint')
-    require 'puppet-lint/tasks/puppet-lint'
-    PuppetLint.configuration.send('disable_autoloader_layout')
-    PuppetLint.configuration.send('disable_80chars')
-    PuppetLint.configuration.relative = true
-    # PuppetLint.configuration.fail_on_warnings
-    # PuppetLint.configuration.ignore_paths = ["spec/**/*.pp", "vendor/**/*.pp"]
-    exclude_paths = [
-      "pkg/**/*",
-      "vendor/**/*",
-      "spec/**/*",
-    ]
-    PuppetLint.configuration.ignore_paths = exclude_paths
-    PuppetSyntax.exclude_paths = exclude_paths
-    PuppetLint.configuration.log_format = "%{path}:%{linenumber}:%{check}:%{KIND}:%{message}"
-    task :default => [:rspec, :lint]
-  end
-rescue Gem::LoadError
+  require 'puppet_blacksmith/rake_tasks'
+rescue LoadError # rubocop:disable Lint/HandleExceptions
 end
 
-task :default => [:lint, :spec]
+RuboCop::RakeTask.new
 
+exclude_paths = [
+  "bundle/**/*",
+  "pkg/**/*",
+  "vendor/**/*",
+  "spec/**/*",
+]
 
-# begin
-#   if Gem::Specification::find_by_name('puppet-lint')
-#     PuppetLint.configuration.fail_on_warnings = true
-#     task :default => [:rspec, :lint]
-#   end
-# rescue Gem::LoadError
-# end
+# Coverage from puppetlabs-spec-helper requires rcov which
+# doesn't work in anything since 1.8.7
+# Rake::Task[:coverage].clear
 
-# begin
-#   require 'parallel_tests/cli'
-#   desc 'Run spec tests in parallel'
-#   task :parallel_spec do
-#     Rake::Task[:spec_prep].invoke
-#     ParallelTests::CLI.new.run('-o "--format=progress" -t rspec spec/classes spec/defines'.split)
-#     Rake::Task[:spec_clean].invoke
-#   end
-#   desc 'Run syntax, lint, spec and metadata tests in parallel'
-#   task :parallel_test => [
-#     :syntax,
-#     :lint,
-#     :parallel_spec,
-#     :metadata,
-#   ]
-# rescue LoadError # rubocop:disable Lint/HandleExceptions
-# end
+Rake::Task[:lint].clear
 
-# This fixes a backwards incompatibility in puppetlabs_spec_helper 1.1.0
-# if Rake::Task.task_defined?('metadata_lint')
-#   task :metadata => :metadata_lint
-# end
-#
-# desc 'Run syntax, lint, spec and metadata tests'
-# task :test => [
-#   :syntax,
-#   :lint,
-#   :spec,
-#   :metadata,
-# ]
+PuppetLint.configuration.relative = true
+PuppetLint.configuration.disable_80chars
+PuppetLint.configuration.disable_class_inherits_from_params_class
+PuppetLint.configuration.disable_class_parameter_defaults
+PuppetLint.configuration.fail_on_warnings = true
+
+PuppetLint::RakeTask.new :lint do |config|
+  config.ignore_paths = exclude_paths
+end
+
+PuppetSyntax.exclude_paths = exclude_paths
+
+desc "Run acceptance tests"
+RSpec::Core::RakeTask.new(:acceptance) do |t|
+  t.pattern = 'spec/acceptance'
+end
+
+desc "Populate CONTRIBUTORS file"
+task :contributors do
+  system("git log --format='%aN' | sort -u > CONTRIBUTORS")
+end
+
+desc "Run syntax, lint, and spec tests."
+task :test => %i[
+  metadata_lint
+  syntax
+  lint
+  rubocop
+  spec
+]

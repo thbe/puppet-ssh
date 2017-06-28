@@ -1,16 +1,9 @@
 require 'spec_helper'
 
 describe 'ssh', :type => :class do
-
-  context 'with defaults for all parameters' do
-    it { should contain_class('ssh') }
-  end
-
   on_supported_os.each do |os, facts|
     context "on #{os}" do
-      let(:facts) do
-        facts
-      end
+      let(:facts) { facts }
 
       it { is_expected.to compile.with_all_deps }
 
@@ -33,12 +26,6 @@ describe 'ssh', :type => :class do
       it 'should generate valid content for authorized keys file vagrant' do
         content = catalogue.resource('file', '/etc/ssh.d/vagrant').send(:parameters)[:content]
         expect(content).to match('qm8tehUc9c9WhQ== vagrant insecure public key')
-      end
-
-      case facts[:osfamily]
-      when 'RedHat'
-      else
-        it { is_expected.to contain_warning('The current operating system is not supported!') }
       end
     end
   end
