@@ -1,6 +1,12 @@
 require 'spec_helper_acceptance'
 
 describe 'ssh' do
+  let(:manifest) {
+    <<-CLASSPARAMETER
+class { 'ssh': }
+CLASSPARAMETER
+  }
+
   it 'should apply without errors' do
     apply_manifest(manifest, :catch_failures => true)
   end
