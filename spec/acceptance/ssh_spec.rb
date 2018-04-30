@@ -10,11 +10,6 @@ describe 'ssh' do
     expect(@result.exit_code).to be_zero
   end
 
-  describe file('/etc/ssh.d') do
-    it { should be_directory }
-    it { should exist }
-  end
-
   describe file('/etc/ssh/ssh_config') do
     it { should be_file }
     it { should exist }
